@@ -1,15 +1,20 @@
-# Archivos compilados de Java
+# Compilados de Java
 *.class
+
+# Maven
+target/
 
 # Carpetas de build
 bin/
 out/
-target/
 
-# Configuración de editores / IDEs
+# IDEs / editores
 .idea/
 .vscode/
 *.iml
+.settings/
+.project
+.classpath
 
 # Sistema
 .DS_Store

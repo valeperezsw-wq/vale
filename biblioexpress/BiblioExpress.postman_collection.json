@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "BiblioExpress",
+    "description": "Coleccion de pruebas para la API BiblioExpress (examen final Programacion III).\n\nLevantar la API con:  mvn spring-boot:run\nBase URL:  http://localhost:8080",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" }
+  ],
+  "item": [
+    {
+      "name": "1. GET materiales disponibles",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/materiales/disponibles", "host": ["{{baseUrl}}"], "path": ["api", "materiales", "disponibles"] }
+      }
+    },
+    {
+      "name": "2. POST prestar (socio 1 - L-001)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"socioId\": 1,\n  \"codigoMaterial\": \"L-001\"\n}" },
+        "url": { "raw": "{{baseUrl}}/api/prestamos/prestar", "host": ["{{baseUrl}}"], "path": ["api", "prestamos", "prestar"] }
+      }
+    },
+    {
+      "name": "3. POST prestar de nuevo L-001 (debe dar 409)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"socioId\": 2,\n  \"codigoMaterial\": \"L-001\"\n}" },
+        "url": { "raw": "{{baseUrl}}/api/prestamos/prestar", "host": ["{{baseUrl}}"], "path": ["api", "prestamos", "prestar"] }
+      }
+    },
+    {
+      "name": "4. POST cambiar estrategia a CAMPANIA",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/prestamos/estrategia?tipo=CAMPANIA", "host": ["{{baseUrl}}"], "path": ["api", "prestamos", "estrategia"], "query": [ { "key": "tipo", "value": "CAMPANIA" } ] }
+      }
+    },
+    {
+      "name": "5. POST devolver L-001 (socio 1, 5 dias atraso)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"socioId\": 1,\n  \"codigoMaterial\": \"L-001\",\n  \"diasAtraso\": 5\n}" },
+        "url": { "raw": "{{baseUrl}}/api/prestamos/devolver", "host": ["{{baseUrl}}"], "path": ["api", "prestamos", "devolver"] }
+      }
+    },
+    {
+      "name": "6. POST prestar L-002 a socio 2 (premium)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"socioId\": 2,\n  \"codigoMaterial\": \"L-002\"\n}" },
+        "url": { "raw": "{{baseUrl}}/api/prestamos/prestar", "host": ["{{baseUrl}}"], "path": ["api", "prestamos", "prestar"] }
+      }
+    },
+    {
+      "name": "7. POST devolver L-002 (socio 2 premium, 10 dias, NORMAL)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"socioId\": 2,\n  \"codigoMaterial\": \"L-002\",\n  \"diasAtraso\": 10\n}" },
+        "url": { "raw": "{{baseUrl}}/api/prestamos/devolver", "host": ["{{baseUrl}}"], "path": ["api", "prestamos", "devolver"] }
+      }
+    },
+    {
+      "name": "8. POST depurar duplicados",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"dnis\": [\"12345678\", \"12345678\", \"87654321\", \"abc\", \"999\", \"40222111\", \"87654321\"]\n}" },
+        "url": { "raw": "{{baseUrl}}/api/socios/depurar-duplicados", "host": ["{{baseUrl}}"], "path": ["api", "socios", "depurar-duplicados"] }
+      }
+    },
+    {
+      "name": "9. POST prestar con datos invalidos (debe dar 400)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"socioId\": 0,\n  \"codigoMaterial\": \"\"\n}" },
+        "url": { "raw": "{{baseUrl}}/api/prestamos/prestar", "host": ["{{baseUrl}}"], "path": ["api", "prestamos", "prestar"] }
+      }
+    }
+  ]
+}
