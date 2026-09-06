@@ -21,6 +21,11 @@ La API queda en `http://localhost:8080`. Al arrancar carga datos de prueba
 
 ---
 
+## Material de estudio
+
+- [`APUNTE-TEORICO.md`](APUNTE-TEORICO.md) — la teoría de las 4 unidades desde cero
+- [`GUIA-DEFENSA-ORAL.md`](GUIA-DEFENSA-ORAL.md) — preguntas del profe y respuestas
+
 ## Arquitectura por capas (Unidad 2)
 
 ```
