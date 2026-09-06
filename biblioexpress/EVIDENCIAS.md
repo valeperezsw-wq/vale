@@ -1,14 +1,17 @@
 # EVIDENCIAS - BiblioExpress
 
-> Completar con capturas de Postman. Para sacar la captura: en Postman, botón derecho
-> sobre el panel de respuesta → o simplemente `Win + Shift + S` y recortar.
-> Guardar las imágenes en la carpeta `evidencias/` y enlazarlas acá.
+Capturas de las pruebas hechas con Postman (colección `BiblioExpress.postman_collection.json`).
+
+> Cómo sacar cada captura: en Postman, después de apretar **Send**, recortá la pantalla
+> con `Win + Shift + S` (que se vea el nombre de la prueba, el código de estado y el
+> cuerpo de la respuesta). Guardá la imagen en la carpeta `evidencias/` con el nombre
+> que indica cada sección.
 
 ---
 
 ## 1. GET /api/materiales/disponibles
 
-Respuesta esperada: lista con los 5 materiales, todos `disponible: true`.
+Lista los 5 materiales, todos `disponible: true`.
 
 ![disponibles](evidencias/01-disponibles.png)
 
@@ -17,57 +20,78 @@ Respuesta esperada: lista con los 5 materiales, todos `disponible: true`.
 ## 2. POST /api/prestamos/prestar
 
 Body: `{ "socioId": 1, "codigoMaterial": "L-001" }`
-Respuesta esperada: **200**, mensaje "Prestamo registrado correctamente."
+Resultado: **200 OK**, `"mensaje": "Prestamo registrado correctamente."`
 
 ![prestar](evidencias/02-prestar.png)
-
-Verificación: volver a llamar GET disponibles → `L-001` ya no aparece.
-
-![disponibles-despues](evidencias/03-disponibles-despues.png)
 
 ---
 
 ## 3. POST /api/prestamos/prestar (material ya prestado)
 
 Body: `{ "socioId": 2, "codigoMaterial": "L-001" }`
-Respuesta esperada: **409 Conflict**, "El material 'L-001' no esta disponible...".
+Resultado: **409 Conflict**, `"El material 'L-001' no esta disponible (ya esta prestado)."`
 
-![prestar-409](evidencias/04-prestar-409.png)
+![prestar-409](evidencias/03-prestar-409.png)
 
 ---
 
-## 4. POST /api/prestamos/devolver con estrategia CAMPANIA
+## 4. POST /api/prestamos/estrategia?tipo=CAMPANIA
 
-Paso previo: `POST /api/prestamos/estrategia?tipo=CAMPANIA`
+Resultado: **200 OK**, `{ "estrategiaActiva": "CAMPANIA" }`
+
+![estrategia-campania](evidencias/04-estrategia-campania.png)
+
+---
+
+## 5. POST /api/prestamos/devolver (socio REGULAR, estrategia CAMPANIA)
+
 Body: `{ "socioId": 1, "codigoMaterial": "L-001", "diasAtraso": 5 }`
-Respuesta esperada: `multaBase: 300` (5 × 60), socio REGULAR, `multaFinal: 300`.
+Resultado: **200 OK**, `multaBase: 300` (5 × 60), `tipoSocio: REGULAR`, `multaFinal: 300`.
 
 ![devolver-campania](evidencias/05-devolver-campania.png)
 
 ---
 
-## 5. POST /api/prestamos/devolver con socio PREMIUM
+## 6. POST /api/prestamos/prestar (socio PREMIUM)
 
-Estrategia NORMAL, `diasAtraso: 10`, socio 2 (Premium).
-Respuesta esperada: `multaBase: 1000`, `multaFinal: 500` (50% de descuento).
+Body: `{ "socioId": 2, "codigoMaterial": "L-002" }`
+Resultado: **200 OK**, préstamo a "Joaquin Perez".
 
-![devolver-premium](evidencias/06-devolver-premium.png)
+![prestar-premium](evidencias/06-prestar-premium.png)
 
 ---
 
-## 6. POST /api/socios/depurar-duplicados
+## 7. POST /api/prestamos/estrategia?tipo=NORMAL
+
+Resultado: **200 OK**, `{ "estrategiaActiva": "NORMAL" }`
+
+![estrategia-normal](evidencias/07-estrategia-normal.png)
+
+---
+
+## 8. POST /api/prestamos/devolver (socio PREMIUM, estrategia NORMAL)
+
+Body: `{ "socioId": 2, "codigoMaterial": "L-002", "diasAtraso": 10 }`
+Resultado: **200 OK**, `multaBase: 1000` (10 × 100), `tipoSocio: PREMIUM`,
+`multaFinal: 500` (50 % de descuento).
+
+![devolver-premium](evidencias/08-devolver-premium.png)
+
+---
+
+## 9. POST /api/socios/depurar-duplicados
 
 Body: `{ "dnis": ["12345678","12345678","87654321","abc","999","40222111","87654321"] }`
-Respuesta esperada: `cantidadRecibidos: 7`, `cantidadUnicos: 3`,
+Resultado: **200 OK**, `cantidadRecibidos: 7`, `cantidadUnicos: 3`,
 `duplicadosDescartados: 2`, `dnisInvalidos: ["abc","999"]`.
 
-![depurar](evidencias/07-depurar-duplicados.png)
+![depurar](evidencias/09-depurar-duplicados.png)
 
 ---
 
-## 7. POST /api/prestamos/prestar con datos inválidos
+## 10. POST /api/prestamos/prestar con datos inválidos
 
 Body: `{ "socioId": 0, "codigoMaterial": "" }`
-Respuesta esperada: **400 Bad Request** con el detalle de los campos.
+Resultado: **400 Bad Request** con el detalle de los campos que fallaron.
 
-![validacion-400](evidencias/08-validacion-400.png)
+![validacion-400](evidencias/10-validacion-400.png)

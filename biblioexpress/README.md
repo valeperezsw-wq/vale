@@ -96,5 +96,6 @@ Socios: `1` Vale Perez (Regular), `2` Joaquin Perez (Premium), `3` Ana Gomez (Re
 
 ## Postman
 
-Importar `BiblioExpress.postman_collection.json` en Postman. Trae las 9 pruebas listas.
-Ver `EVIDENCIAS.md` para las capturas.
+Importar `BiblioExpress.postman_collection.json` en Postman (Ctrl+O → files).
+Trae 10 pruebas numeradas; **correrlas en orden** (algunas dependen del estado
+que deja la anterior). Ver `EVIDENCIAS.md` para el detalle de cada una.

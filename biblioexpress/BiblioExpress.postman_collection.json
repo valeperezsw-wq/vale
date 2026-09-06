@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "BiblioExpress",
-    "description": "Coleccion de pruebas para la API BiblioExpress (examen final Programacion III).\n\nLevantar la API con:  mvn spring-boot:run\nBase URL:  http://localhost:8080",
+    "description": "Coleccion de pruebas para la API BiblioExpress (examen final Programacion III).\n\nLevantar la API con:  mvn spring-boot:run\nBase URL:  http://localhost:8080\n\nCorrer las pruebas EN ORDEN (1 a 10): algunas dependen del estado dejado por las anteriores.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -43,7 +43,7 @@
       }
     },
     {
-      "name": "5. POST devolver L-001 (socio 1, 5 dias atraso)",
+      "name": "5. POST devolver L-001 (socio 1 REGULAR, 5 dias, CAMPANIA -> 300 / 300)",
       "request": {
         "method": "POST",
         "header": [ { "key": "Content-Type", "value": "application/json" } ],
@@ -52,7 +52,7 @@
       }
     },
     {
-      "name": "6. POST prestar L-002 a socio 2 (premium)",
+      "name": "6. POST prestar L-002 a socio 2 (PREMIUM)",
       "request": {
         "method": "POST",
         "header": [ { "key": "Content-Type", "value": "application/json" } ],
@@ -61,7 +61,15 @@
       }
     },
     {
-      "name": "7. POST devolver L-002 (socio 2 premium, 10 dias, NORMAL)",
+      "name": "7. POST volver estrategia a NORMAL",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/prestamos/estrategia?tipo=NORMAL", "host": ["{{baseUrl}}"], "path": ["api", "prestamos", "estrategia"], "query": [ { "key": "tipo", "value": "NORMAL" } ] }
+      }
+    },
+    {
+      "name": "8. POST devolver L-002 (socio 2 PREMIUM, 10 dias, NORMAL -> 1000 / 500)",
       "request": {
         "method": "POST",
         "header": [ { "key": "Content-Type", "value": "application/json" } ],
@@ -70,7 +78,7 @@
       }
     },
     {
-      "name": "8. POST depurar duplicados",
+      "name": "9. POST depurar duplicados",
       "request": {
         "method": "POST",
         "header": [ { "key": "Content-Type", "value": "application/json" } ],
@@ -79,7 +87,7 @@
       }
     },
     {
-      "name": "9. POST prestar con datos invalidos (debe dar 400)",
+      "name": "10. POST prestar con datos invalidos (debe dar 400)",
       "request": {
         "method": "POST",
         "header": [ { "key": "Content-Type", "value": "application/json" } ],
